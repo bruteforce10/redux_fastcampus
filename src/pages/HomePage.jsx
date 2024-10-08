@@ -1,8 +1,9 @@
 import ProductCard from "@/components/ProductCard";
 import { axiosInstance } from "@/lib/axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const HomePage = () => {
+  const [productsIsLoading, setProductsIsLoading] = useState(false);
   const [products, setProducts] = useState([]);
 
   const productsList = products.map((product) => (
@@ -16,21 +17,30 @@ const HomePage = () => {
   ));
 
   const fetchProducts = async () => {
+    setProductsIsLoading(true);
     try {
       const res = await axiosInstance.get("/products");
 
       setProducts(res.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setProductsIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <>
       <main className="min-h-[80vh] max-w-screen-md mx-auto px-4 mt-8">
-        <div className="grid grid-cols-2 gap-4">{productsList}</div>
-
-        <button onClick={fetchProducts}>Fetch Products</button>
+        {productsIsLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className="grid grid-cols-2 gap-4">{productsList}</div>
+        )}
       </main>
     </>
   );
