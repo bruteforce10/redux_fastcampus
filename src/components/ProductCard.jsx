@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { IoIosAdd, IoIosRemove } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
 export default function ProductCard({ image, productName, price, stock }) {
@@ -20,16 +21,20 @@ export default function ProductCard({ image, productName, price, stock }) {
 
   return (
     <div className="p-4 border rounded-md md:max-w-96 flex flex-col gap-4">
-      <div className="aspect-square  w-full overflow-hidden ">
+      <Link
+        to={"/product/detail"}
+        className="aspect-square  w-full overflow-hidden "
+      >
         <img src={image} alt={productName} className="w-full" />
-      </div>
-      <div>
+      </Link>
+
+      <Link to={"/product/detail"}>
         <h2 className="text-md">{productName}</h2>
         <p className="font-semibold text-xl">
           Rp {price.toLocaleString("id-ID")}
         </p>
         <p className="text-muted-foreground text-sm">In stock: {stock}</p>
-      </div>
+      </Link>
 
       <div className="flex flex-col gap-2">
         <div className="flex justify-between items-center ">
