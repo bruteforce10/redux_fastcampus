@@ -14,7 +14,7 @@ function App() {
         <Route path="/" Component={HomePage} />
         <Route path="/cart" Component={CartPage} />
         <Route path="/login" Component={LoginPage} />
-        <Route path="product/detail" Component={ProductDetailPage} />
+        <Route path="product/:productId" Component={ProductDetailPage} />
         <Route path="*" Component={NotFoundPage} />
       </Routes>
     </>

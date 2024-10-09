@@ -1,18 +1,32 @@
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { axiosInstance } from "@/lib/axios";
+import { useEffect, useState } from "react";
 import { IoIosAdd, IoIosRemove, IoMdHeart } from "react-icons/io";
-
-const product = {
-  image:
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkiGMULsAHa9dID44BozhTQWOlhmMY7a11nQ&s",
-  productName: "Product 1",
-  price: 1000,
-  stock: 0,
-  id: 1,
-};
+import { useParams } from "react-router-dom";
 
 const ProductDetailPage = () => {
+  const params = useParams();
   const [quantity, setQuantity] = useState(0);
+  const [product, setProduct] = useState({
+    image: "",
+    productName: "",
+    price: "",
+    stock: 0,
+    id: 0,
+  });
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axiosInstance.get(`/products/${params.productId}`);
+      setProduct(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <main className="min-h-screen max-w-screen-lg mx-auto px-4 mt-8">

@@ -4,7 +4,7 @@ import { IoIosAdd, IoIosRemove } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
-export default function ProductCard({ image, productName, price, stock }) {
+export default function ProductCard({ image, productName, price, stock, id }) {
   const [quantity, setQuantity] = useState(0);
 
   const incrementQuantity = () => {
@@ -22,13 +22,13 @@ export default function ProductCard({ image, productName, price, stock }) {
   return (
     <div className="p-4 border rounded-md md:max-w-96 flex flex-col gap-4">
       <Link
-        to={"/product/detail"}
+        to={`/product/${id}`}
         className="aspect-square  w-full overflow-hidden "
       >
         <img src={image} alt={productName} className="w-full" />
       </Link>
 
-      <Link to={"/product/detail"}>
+      <Link to={`/product/${id}`}>
         <h2 className="text-md">{productName}</h2>
         <p className="font-semibold text-xl">
           Rp {price.toLocaleString("id-ID")}

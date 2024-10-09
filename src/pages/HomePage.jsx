@@ -13,6 +13,7 @@ const HomePage = () => {
       productName={product.productName}
       price={product.price}
       stock={product.stock}
+      id={product.id}
     />
   ));
 
