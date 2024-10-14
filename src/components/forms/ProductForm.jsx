@@ -32,14 +32,21 @@ const productFormSchema = z.object({
 });
 
 export const ProductForm = (props) => {
-  const { onSubmit, cardTitle } = props;
+  const {
+    onSubmit,
+    cardTitle,
+    defaultName,
+    defaultPrice,
+    defaultStock,
+    defaultImage,
+  } = props;
 
   const form = useForm({
     defaultValues: {
-      productName: "",
-      price: 0,
-      stock: 0,
-      image: "",
+      productName: defaultName || "",
+      price: defaultPrice || 0,
+      stock: defaultStock || 0,
+      image: defaultImage || "",
     },
     resolver: zodResolver(productFormSchema),
   });
