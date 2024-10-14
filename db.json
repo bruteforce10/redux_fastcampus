@@ -16,10 +16,38 @@
     },
     {
       "image": "https://placehold.jp/396x594.png",
-      "name": "Product 3",
+      "productName": "Product 3",
       "price": 2000,
       "stock": 20,
       "id": 3
+    },
+    {
+      "image": "https://placehold.jp/396x594.png",
+      "productName": "Product 4",
+      "price": 20000,
+      "stock": 20,
+      "id": 4
+    },
+    {
+      "id": "fd15",
+      "productName": "bebas",
+      "price": 10000,
+      "stock": 12,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkiGMULsAHa9dID44BozhTQWOlhmMY7a11nQ&s"
+    },
+    {
+      "id": "8f7a",
+      "productName": "bebas",
+      "price": 10000,
+      "stock": 5,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkiGMULsAHa9dID44BozhTQWOlhmMY7a11nQ&s"
+    },
+    {
+      "id": "fb50",
+      "productName": "bebas22",
+      "price": 1222222,
+      "stock": 11,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkiGMULsAHa9dID44BozhTQWOlhmMY7a11nQ&s"
     }
   ]
 }
