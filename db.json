@@ -2,13 +2,6 @@
   "products": [
     {
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkiGMULsAHa9dID44BozhTQWOlhmMY7a11nQ&s",
-      "productName": "Product 199",
-      "price": 100000,
-      "stock": 999,
-      "id": "1"
-    },
-    {
-      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkiGMULsAHa9dID44BozhTQWOlhmMY7a11nQ&s",
       "productName": "Product 2",
       "price": 3000,
       "stock": 10,

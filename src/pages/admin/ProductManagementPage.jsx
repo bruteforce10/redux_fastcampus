@@ -16,7 +16,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { axiosInstance } from "@/lib/axios";
-import { ChevronLeft, ChevronRight, Edit } from "lucide-react";
+import { ChevronLeft, ChevronRight, Edit, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { Link, useSearchParams } from "react-router-dom";
@@ -64,6 +64,22 @@ const ProductManagementPage = () => {
     } else {
       searchParams.delete("search");
       setSearchParams(searchParams);
+    }
+  };
+
+  const handleDeleteProduct = async (id) => {
+    const shouldDelete = confirm(
+      "Are you sure you want to delete this product?"
+    );
+
+    if (!shouldDelete) return;
+
+    try {
+      await axiosInstance.delete(`/products/${id}`);
+      alert("Product deleted successfully");
+      fetchProducts();
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -137,11 +153,21 @@ const ProductManagementPage = () => {
                   <TableCell>{product.price}</TableCell>
                   <TableCell>{product.stock}</TableCell>
                   <TableCell>
-                    <Link to={`/admin/products/edit/${product.id}`}>
-                      <Button variant="ghost" size="icon">
-                        <Edit className="h-6 w-6" />
+                    <div className="flex gap-2">
+                      <Link to={`/admin/products/edit/${product.id}`}>
+                        <Button variant="ghost" size="icon">
+                          <Edit className="h-6 w-6" />
+                        </Button>
+                      </Link>
+
+                      <Button
+                        onClick={() => handleDeleteProduct(product.id)}
+                        variant="destructive"
+                        size="icon"
+                      >
+                        <Trash className="h-6 w-6" />
                       </Button>
-                    </Link>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
