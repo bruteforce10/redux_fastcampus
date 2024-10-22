@@ -10,6 +10,8 @@ const CounterPage = () => {
   const dispatch = useDispatch();
   const incrementCounter = () => dispatch({ type: "INCREMENT_COUNT" });
   const decrementCounter = () => dispatch({ type: "DECREMENT_COUNT" });
+  const setCounterWithInput = () =>
+    dispatch({ type: "SET_COUNT", payload: count });
 
   return (
     <main className="min-h-[80vh] max-w-screen-md mx-auto px-4 mt-8 flex flex-col justify-center items-center gap-4">
@@ -29,7 +31,7 @@ const CounterPage = () => {
             value={count}
             onChange={(e) => setCount(e.target.value)}
           />
-          <Button>Submit</Button>
+          <Button onClick={setCounterWithInput}>Submit</Button>
         </div>
       </div>
     </main>
