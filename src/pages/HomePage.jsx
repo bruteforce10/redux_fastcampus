@@ -1,10 +1,12 @@
 import ProductCard from "@/components/ProductCard";
 import { axiosInstance } from "@/lib/axios";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const HomePage = () => {
   const [productsIsLoading, setProductsIsLoading] = useState(false);
   const [products, setProducts] = useState([]);
+  const selector = useSelector((state) => state.user);
 
   const productsList = products.map((product) => (
     <ProductCard
@@ -40,7 +42,10 @@ const HomePage = () => {
         {productsIsLoading ? (
           <p>Loading...</p>
         ) : (
-          <div className="grid grid-cols-2 gap-4">{productsList}</div>
+          <>
+            <h2>{selector.email}</h2>
+            <div className="grid grid-cols-2 gap-4">{productsList}</div>
+          </>
         )}
       </main>
     </>
