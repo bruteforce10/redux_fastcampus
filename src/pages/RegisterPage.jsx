@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -17,60 +16,64 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { axiosInstance } from "@/lib/axios";
-import { useDispatch } from "react-redux";
 
-const loginFormScheme = z.object({
-  username: z
-    .string()
-    .min(3, "Username must be at least 3 characters")
-    .max(16, "Username must be at most 16 characters"),
-  password: z.string().min(8, "Password must be at least 8 characters or more"),
-});
+const registerFromSchema = z
+  .object({
+    username: z
+      .string()
+      .min(3, "Username must be at least 3 characters")
+      .max(16, "Username must be at most 16 characters"),
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters or more"),
+    repeatPassword: z
+      .string()
+      .min(8, "Password must be at least 8 characters or more"),
+  })
+  .superRefine(({ password, repeatPassword }, ctx) => {
+    if (password !== repeatPassword) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Password does not match",
+        path: ["repeatPassword"],
+      });
+    }
+  });
 
-const LoginPage = () => {
-  const dispatch = useDispatch();
+const RegisterPage = () => {
   const form = useForm({
     defaultValues: {
       username: "",
       password: "",
+      repeatPassword: "",
     },
-    resolver: zodResolver(loginFormScheme),
+    resolver: zodResolver(registerFromSchema),
     reValidateMode: "onSubmit",
   });
 
-  const [isChecked, setIsChecked] = useState(false);
-
-  const handleLogin = async (values) => {
+  const handleRegister = async (values) => {
     try {
       const userResponse = await axiosInstance.get("/users", {
         params: {
           username: values.username,
-          password: values.password,
         },
       });
 
-      if (userResponse.data.length === 0) {
-        alert("Invalid username or password");
+      if (userResponse.data.length) {
+        alert("Username already exists");
         return;
       }
 
-      alert("Login successful!");
-
-      dispatch({
-        type: "USER_LOGIN",
-        payload: {
-          username: userResponse.data[0].username,
-          id: userResponse.data[0].id,
-        },
+      await axiosInstance.post("/users", {
+        username: values.username,
+        password: values.password,
       });
 
-      form.reset();
+      alert("Account created successfully");
     } catch (error) {
       console.log(error);
     }
@@ -80,12 +83,12 @@ const LoginPage = () => {
     <main className="px-4 mx-auto container py-8 flex flex-col justify-center items-center max-w-screen-md h-[80vh]">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(handleLogin)}
+          onSubmit={form.handleSubmit(handleRegister)}
           className="w-full max-w-[450px]"
         >
           <Card>
             <CardHeader>
-              <CardTitle>Welcome back!</CardTitle>
+              <CardTitle>Create Account!</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
               <FormField
@@ -111,10 +114,7 @@ const LoginPage = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        type={isChecked ? "text" : "password"}
-                      />
+                      <Input {...field} type="password" />
                     </FormControl>
                     <FormDescription>
                       Password must be at least 8 characters
@@ -123,22 +123,30 @@ const LoginPage = () => {
                   </FormItem>
                 )}
               />
-
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  onCheckedChange={() => setIsChecked(!isChecked)}
-                  id="show-password"
-                />
-                <Label htmlFor="show-password">Show Password</Label>
-              </div>
+              <FormField
+                control={form.control}
+                name="repeatPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Repeat Password</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="password" />
+                    </FormControl>
+                    <FormDescription>
+                      Make sure your password is at least 8 characters & match
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </CardContent>
             <CardFooter>
               <div className="flex flex-col space-y-4 w-full">
                 <Button disabled={!form.formState.isValid} type="submit">
-                  Login
+                  Register
                 </Button>
                 <Button variant="link" className="w-full">
-                  Sign up instead
+                  Log in instead
                 </Button>
               </div>
             </CardFooter>
@@ -149,4 +157,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

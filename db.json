@@ -42,5 +42,12 @@
       "stock": 11,
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkiGMULsAHa9dID44BozhTQWOlhmMY7a11nQ&s"
     }
+  ],
+  "users": [
+    {
+      "id": "9120",
+      "username": "lv.education",
+      "password": "jika1515"
+    }
   ]
 }
