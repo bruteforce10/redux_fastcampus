@@ -61,6 +61,7 @@ const LoginPage = () => {
       }
 
       alert("Login successful!");
+      localStorage.setItem("current-user", userResponse.data[0].id);
 
       dispatch({
         type: "USER_LOGIN",
