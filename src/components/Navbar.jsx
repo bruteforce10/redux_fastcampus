@@ -3,10 +3,16 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Navbar() {
   const userSelector = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    localStorage.removeItem("current-user");
+    dispatch({ type: "USER_LOGOUT" });
+  };
 
   return (
     <nav className="border-b-2 border-gray-200 py-4 flex justify-between items-center px-8">
@@ -38,13 +44,22 @@ export default function Navbar() {
         </div>
         <div className="flex flex-wrap space-x-2 justify-center items-center">
           {userSelector.id ? (
-            <p>Hello, {userSelector.username}</p>
+            <>
+              <p>Hello, {userSelector.username}</p>
+              <Button variant="destructive" onClick={handleLogout}>
+                Log out
+              </Button>
+            </>
           ) : (
             <>
-              <Button size="sm">Log in</Button>
-              <Button size="sm" variant="outline">
-                Sign up
-              </Button>
+              <Link to={"/login"}>
+                <Button size="sm">Log in</Button>
+              </Link>
+              <Link to={"/register"}>
+                <Button size="sm" variant="outline">
+                  Sign up
+                </Button>
+              </Link>
             </>
           )}
         </div>

@@ -47,7 +47,14 @@
     {
       "id": "9120",
       "username": "lv.education",
-      "password": "jika1515"
+      "password": "jika1515",
+      "role": "user"
+    },
+    {
+      "id": "9110",
+      "username": "firdi",
+      "password": "jika1515",
+      "role": "admin"
     }
   ]
 }
